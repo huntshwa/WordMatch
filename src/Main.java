@@ -1,5 +1,9 @@
+import java.io.IOException;
+import java.util.Scanner;
+import java.io.FileNotFoundException;
+import java.io.File;
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException{
         WordMatch w = new WordMatch("mississippi");
         System.out.println(w.scoreGuess("i"));
         System.out.println(w.scoreGuess("iss"));
@@ -20,5 +24,23 @@ public class Main {
         System.out.println(c.scoreGuess("con"));
         System.out.println(c.scoreGuess("cat"));
         System.out.println(c.findBetterGuess("con", "cat"));
+
+        System.out.println(read());
+    }
+
+    public static int read() throws FileNotFoundException {
+        File f = new File("Guesses.txt");
+        Scanner s = new Scanner(f);
+
+        int guess1;
+        int guess2;
+        int score = 0;
+
+        while (s.hasNext()) {
+                WordMatch w = new WordMatch(s.next());
+                score += w.scoreGuess(w.findBetterGuess(s.next(), s.next()));
+        }
+
+        return score;
     }
 }
